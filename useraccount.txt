@@ -1,0 +1,4 @@
+openssl genrsa -out test.pem 2048
+openssl req -new -key test.pem -out test-csr.pem -subj "/CN=javad/O=dastan/"
+sudo openssl x509 -req -in test-csr.pem -CA /var/lib/minikube/certs/ca.crt -CAkey /var/lib/minikube/certs/ca.key -CAcreateserial -out javad.crt -days 1000
+
