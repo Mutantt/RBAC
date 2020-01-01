@@ -5,5 +5,17 @@ sudo openssl x509 -req -in test-csr.pem -CA /var/lib/minikube/certs/ca.crt -CAke
 ----
 cat ~/.ssh/id_rsa.pub | ssh username@server.address.com 'cat >> ~/.ssh/authorized_keys'
 
+----
 
+db.createUser(
+  {
+    user: "reportsUser",
+    pwd: "password"
+    roles: [
+       { role: "ClusterMonitor", db: "admin" },
+       { role: "read", db: "OurGoodTik8_production" }
+    ]
+  }
+)
 
+----
