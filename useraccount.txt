@@ -4,18 +4,37 @@ sudo openssl x509 -req -in test-csr.pem -CA /var/lib/minikube/certs/ca.crt -CAke
 
 ----
 cat ~/.ssh/id_rsa.pub | ssh username@server.address.com 'cat >> ~/.ssh/authorized_keys'
-
 ----
+MongoDB Current Processes:
 
+mongo
+db.currentOp()
+
+MongoDB Current Connections:
+mongo
+db.currentOp(true).inprog.reduce(
+   (accumulator, connection) => {
+     ipaddress = connection.client ? connection.client.split(":")[0] : "Internal";
+     accumulator[ipaddress] = (accumulator[ipaddress] || 0) + 1;
+    accumulator["TOTAL_CONNECTION_COUNT"]++;
+     return accumulator;
+   },
+   { TOTAL_CONNECTION_COUNT: 0 }
+ )
+
+
+---
+Create a job from CronJob:
+
+kubectl create job --from=cronjob/<name of cronjob> <name of job>
+----
 db.createUser(
   {
     user: "reportsUser",
     pwd: "password"
     roles: [
        { role: "ClusterMonitor", db: "admin" },
-       { role: "read", db: "OurGoodTik8_production" }
+       { role: "read", db: "db-name" }
     ]
   }
 )
-
-----
