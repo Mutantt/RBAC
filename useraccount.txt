@@ -3,6 +3,10 @@ openssl req -new -key test.pem -out test-csr.pem -subj "/CN=x/O=y/"
 sudo openssl x509 -req -in test-csr.pem -CA /var/lib/minikube/certs/ca.crt -CAkey /var/lib/minikube/certs/ca.key -CAcreateserial -out test.crt -days 1000
 
 ----
+
+ssh-keygen -t rsa -b 4096 -C "mcflym@N123456"
+
+
 cat ~/.ssh/id_rsa.pub | ssh username@server.address.com 'cat >> ~/.ssh/authorized_keys'
 ----
 MongoDB Current Processes:
